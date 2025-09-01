@@ -1,0 +1,14 @@
+# Node.js dependencies
+node_modules/
+
+# Parcel cache
+.parcel-cache/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+
+# Misc
+.DS_Store
