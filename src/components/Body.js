@@ -59,16 +59,19 @@ const Body = () => {
 
   return listofRestaurants?.length === 0 ? <Shimmer /> : (
     <>
-    <div className='search-container'>
-      <input type='search' value={searchText} onChange={(e) => setSearchText(e.target.value)}/>
+    <div className='flex items-center gap-4 mb-6 justify-center'>
+      <div className='search-container flex items-center justify-center gap-2'>
+      <input type='search' value={searchText} onChange={(e) => setSearchText(e.target.value)} className='border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400'/>
       <button onClick={handleSearch}>Search</button>
     </div>
     <div className='filter'>
-      <button className='top-filter-btn' onClick={filterTopRatedRestaurants}>
+      <button className="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition" onClick={filterTopRatedRestaurants}>
         Top Rated Restaurants
       </button>
     </div>
-    <div className='res-container'>
+    </div>
+    
+    <div className='res-container flex flex-wrap gap-6 justify-center no-underline'>
       {filteredRestaurants.map( res => (
         <Link to={`/restaurant/${res.info.id}`} key={res.info.id}>
         <ResCard resData = {res}/>

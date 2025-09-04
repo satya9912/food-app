@@ -10,21 +10,31 @@ const Header = () => {
         setLoggedIn(!isLoggedin);
     }
     return(
-    <div className="header-container flex justify-between">
-        <div className="left-section">
-            <div className="logo-container">
-                <img src={LOGO_URL} />
-            </div>
+    <div className="header-container flex justify-between items-center">
+
+        <div className="logo-container w-40">
+                <img src={LOGO_URL} className="w-full" />
         </div>
-        <div className="right-section">
-                <ul>
-                    <Link to={"/"}><li>Home</li></Link>
-                    <Link to={"/about"}><li>About</li></Link>
-                    <Link to={"/contact"}><li>Contact</li></Link>
-                </ul>
-                <h3>{onlineStatus ? "🟢" : "🔴"}</h3>
-                <button onClick={toggleLogin}>{isLoggedin ? "Logout" : "Login"}</button>
-        </div>
+        <nav className="flex gap-4 px-4">
+            <ul className="flex gap-4">
+                <li>
+                <Link to="/">Home</Link>
+                </li>
+                <li>
+                <Link to="/about">About</Link>
+                </li>
+                <li>
+                <Link to="/contact">Contact</Link>
+                </li>
+            </ul>
+
+            <h3>{onlineStatus ? "🟢" : "🔴"}</h3>
+
+            <button onClick={toggleLogin}>
+                {isLoggedin ? "Logout" : "Login"}
+            </button>
+        </nav>
+
     </div>
 )}
 
