@@ -27,19 +27,30 @@ const Body = () => {
     const jsonData = await data.json();
     const allCards = jsonData?.data?.cards || [];
 
-    const restaurantData = allCards.find(
-      (card) =>
-        card?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    )?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+  const restaurantData = allCards
+  .filter(
+    (card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants
+  )
+  .flatMap(
+    (card) => card.card.card.gridElements.infoWithStyle.restaurants
+  );
 
-    if (restaurantData) {
-      setListofRestaurants(restaurantData);
-      setFilteredrestaurants(restaurantData);
-      console.log("Restaurants fetched:", restaurantData.length);
-    } else {
-      console.error("Could not find restaurant list.");
-    }
-  }
+// Deduplicate by restaurant ID
+const uniqueRestaurants = restaurantData.filter(
+  (res, index, self) =>
+    index === self.findIndex((r) => r.info.id === res.info.id)
+);
+
+if (uniqueRestaurants.length > 0) {
+  setListofRestaurants(uniqueRestaurants);
+  setFilteredrestaurants(uniqueRestaurants);
+  console.log("Restaurants fetched:", uniqueRestaurants.length);
+} else {
+  console.error("Could not find restaurant list.");
+}
+}
+
+
 
   const filterTopRatedRestaurants = () => {
     let topRatedrestaurants = listofRestaurants.filter( (res) => (
