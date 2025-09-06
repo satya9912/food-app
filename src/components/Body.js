@@ -1,5 +1,5 @@
 import ResCard from './ResCard';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Shimmer from './Shimmer';
 import { Link } from 'react-router-dom';
 import useOnlineStatus from "../utils/hooks/useOnlineStatus";
@@ -13,46 +13,51 @@ const Body = () => {
 
   useEffect( () => {
     fetchData();
-  }, [])
+  }, []);
 
   useEffect( () => {
     if(filteredRestaurants.length === 0){
       setFilteredrestaurants(listofRestaurants);
     }
-  },[filteredRestaurants])
+  },[filteredRestaurants]);
 
   const fetchData = async () => {
-    // const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=21.99740&lng=79.00110&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
-    const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=13.198909&lng=77.7068926&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING')
-    const jsonData = await data.json();
-    const allCards = jsonData?.data?.cards || [];
-
-  const restaurantData = allCards
-  .filter(
-    (card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants
-  )
-  .flatMap(
-    (card) => card.card.card.gridElements.infoWithStyle.restaurants
-  );
-
-// Deduplicate by restaurant ID
-const uniqueRestaurants = restaurantData.filter(
-  (res, index, self) =>
-    index === self.findIndex((r) => r.info.id === res.info.id)
-);
-
-if (uniqueRestaurants.length > 0) {
-  setListofRestaurants(uniqueRestaurants);
-  setFilteredrestaurants(uniqueRestaurants);
-  console.log("Restaurants fetched:", uniqueRestaurants.length);
-} else {
-  console.error("Could not find restaurant list.");
-}
-}
+  try {
+    const baseUrl =
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9716&lng=77.5946&offset=0&page_type=DESKTOP_WEB_LISTING";
 
 
+    let allRestaurants = [];
 
-  const filterTopRatedRestaurants = () => {
+    // Fetch first 3 pages (0, 20, 40) → ~60 restaurants
+    for (let offset of [0, 20, 40]) {
+      const res = await fetch(`${baseUrl}&offset=${offset}`);
+      const json = await res.json();
+
+      const restaurants = json?.data?.cards
+        ?.flatMap((card) =>
+          card?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
+        ) || [];
+
+      allRestaurants = allRestaurants.concat(restaurants);
+    }
+
+    // Deduplicate by restaurant ID
+    const uniqueRestaurants = allRestaurants.filter(
+      (res, index, self) =>
+        index === self.findIndex((r) => r.info.id === res.info.id)
+    );
+
+    setListofRestaurants(uniqueRestaurants);
+    setFilteredrestaurants(uniqueRestaurants);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+
+
+ const filterTopRatedRestaurants = () => {
     let topRatedrestaurants = listofRestaurants.filter( (res) => (
       res.info.avgRating > 4.5
     ))
