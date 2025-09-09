@@ -12,8 +12,10 @@ const Header = () => {
     return(
     <div className="header-container flex justify-between items-center">
 
-        <div className="logo-container w-40">
-                <img src={LOGO_URL} className="w-full" />
+        <div className="logo-container w-40" >
+            <Link to={"/"}>
+            <img src={LOGO_URL} className="w-full" />
+            </Link>
         </div>
         <nav className="flex gap-4 px-4">
             <ul className="flex gap-4">

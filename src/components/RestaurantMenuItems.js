@@ -6,6 +6,8 @@ import RestaurantMenuList from "./RestaurantMenuList";
 
 const RestaurantMenuItems = () => {
 
+  const [showIndex, setShowIndex] = useState(null);
+
   const { resId } = useParams();
   const resInfo = useRestaurantMenu(resId);
 
@@ -44,8 +46,12 @@ const RestaurantMenuItems = () => {
     </div>
     <div className="flex flex-col gap-4 justify-center mx-auto">
        {
-        categories.map((category) => (
-          <RestaurantMenuList key={category.card.card.categoryId} category={category}/>
+        categories.map((category, index) => (
+          <RestaurantMenuList key={category.card.card.categoryId} 
+                              category={category}
+                              showItems = {index === showIndex ? true : false}
+                              setShowIndex = {() => setShowIndex(index) }
+          />
         ))
       }
     </div>
