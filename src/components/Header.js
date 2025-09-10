@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/hooks/useOnlineStatus";
+import UserContext from "../utils/context/UserContext";
 
 const Header = () => {
     const [isLoggedin , setLoggedIn] = useState(false);
     const onlineStatus = useOnlineStatus();
+    const {loggedInUser} = useContext(UserContext);
     const toggleLogin = () => {
         setLoggedIn(!isLoggedin);
     }
@@ -35,6 +37,7 @@ const Header = () => {
             <button onClick={toggleLogin}>
                 {isLoggedin ? "Logout" : "Login"}
             </button>
+            <p className="font-bold">{loggedInUser}</p>
         </nav>
 
     </div>

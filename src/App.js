@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import ReactDOM from "react-dom/client"
 import Body from "./components/Body"
 import Header from "./components/Header"
@@ -8,15 +8,20 @@ import Contact from "./components/Contact";
 import About from "./components/About";
 import Error from "./components/Error";
 import RestaurantMenuItems from "./components/RestaurantMenuItems"
+import UserContext from "./utils/context/UserContext"
 
-const App = () => (
-
+const App = () => {
+        const[userName, setUserName] = useState("satya karri");
+        return(
         <>
-        <Header />
-        <Outlet />
-        <Footer />
+        <UserContext.Provider value={{loggedInUser : userName, setUserName}}>
+                <Header />
+                <Outlet />
+                <Footer />
+        </UserContext.Provider>
         </>
 )
+}
 
 const router = createBrowserRouter([
             {path: '/', element: <App />,

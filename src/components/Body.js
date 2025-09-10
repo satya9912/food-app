@@ -1,14 +1,16 @@
 import ResCard from './ResCard';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Shimmer from './Shimmer';
 import { Link } from 'react-router-dom';
 import useOnlineStatus from "../utils/hooks/useOnlineStatus";
+import UserContext from '../utils/context/UserContext.js';
 
 const Body = () => {
   const [listofRestaurants, setListofRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredrestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const onlineStatus = useOnlineStatus();
+  const {loggedInUser, setUserName} = useContext(UserContext);
   //when ever state variables update react triggers a reconciliation cycle(react re-renders the component)
 
   useEffect( () => {
@@ -84,6 +86,12 @@ const Body = () => {
       <button className="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition" onClick={filterTopRatedRestaurants}>
         Top Rated Restaurants
       </button>
+    </div>
+    <div>
+      <label>
+        Search User
+      <input className='p-2 border border-black' type='search' value={loggedInUser} onChange={(e) => setUserName(e.target.value)}/>
+      </label>
     </div>
     </div>
     

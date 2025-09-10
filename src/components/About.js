@@ -1,6 +1,7 @@
 import React from 'react';
 import Userdetails from './UserDetails';
 import SatyaDetails from './SatyaDetails';
+import UserContext from '../utils/context/UserContext';
 
 class About extends React.Component {
   constructor(){
@@ -14,9 +15,16 @@ class About extends React.Component {
     console.log("parent render");
      return (
     <>
-    <div>About</div>
-    <Userdetails name={"satya"} location={"banglore"} company={"google"}/>
-    <SatyaDetails />
+    <UserContext.Consumer>
+      {({loggedInUser}) => (
+        <>
+          <div>About</div>
+          <Userdetails name={"satya"} location={"banglore"} company={"google"}/>
+          <SatyaDetails />
+          <h3>{loggedInUser}</h3>
+        </>
+      )}
+    </UserContext.Consumer>
     </>
   )
   }
