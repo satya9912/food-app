@@ -10,10 +10,12 @@
   "author": "satya prasad",
   "license": "ISC",
   "dependencies": {
+    "@reduxjs/toolkit": "^2.9.0",
     "@tailwindcss/postcss": "^4.1.12",
     "par": "^0.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "6.23.1",
     "tailwindcss": "^4.1.12"
   },

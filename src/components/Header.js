@@ -3,6 +3,7 @@ import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/hooks/useOnlineStatus";
 import UserContext from "../utils/context/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
     const [isLoggedin , setLoggedIn] = useState(false);
@@ -11,6 +12,7 @@ const Header = () => {
     const toggleLogin = () => {
         setLoggedIn(!isLoggedin);
     }
+    const cartItems = useSelector((store) => store.cart.items);
     return(
     <div className="header-container flex justify-between items-center">
 
@@ -29,6 +31,9 @@ const Header = () => {
                 </li>
                 <li>
                 <Link to="/contact">Contact</Link>
+                </li>
+                <li>
+                <Link to="/cart">Cart - {cartItems.length} items</Link>
                 </li>
             </ul>
 

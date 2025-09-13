@@ -16,7 +16,6 @@ const RestaurantMenuItems = () => {
   const resData = resInfo?.data?.cards
     ?.map((card) => card.card?.card?.info)
     .filter(Boolean)[0];
-    console.log(resInfo)
 
   const cards = resInfo?.data?.cards;
   const groupedCard = cards?.find((card) => card.groupedCard)?.groupedCard; 

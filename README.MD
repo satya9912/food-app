@@ -22,3 +22,11 @@
 
 // packagelock.json is a very important File, it locks the version and never keep the packagelock.json in gitignore
 //we should put parcel.cache in gitignore
+
+# Redux Toolkit
+ - installing npm install @reduxjs/toolkit and npm install react-redux
+ - build our store
+ - connect store to app
+ - creating slice
+ - dispatch action
+ - read the data using selector
